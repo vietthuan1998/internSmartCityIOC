@@ -12,20 +12,29 @@ const getAlerts = () => {
     }, 1000);
   });
 };
-const main = async () => {
-  try {
-    const data = await getAlerts();
-    console.log(data);
-  } catch (error) {
-    console.error("Co loi:", error.message);
-  }
-};
 
-main();
+const getTaskList = () => Promise.resolve([{ id: 101 }]);
 
 const getCameraList = () => {
   return new Promise((res) => {
     res(cameraLists);
   });
 };
-getCameraList().then((data) => console.log(data));
+
+const loadAll = async () => {
+  const [camera, task] = await Promise.all([getCameraList(), getTaskList()]);
+  console.log("Task length: ", task.length, "Camera length: ", camera.length);
+};
+
+const main = async () => {
+  try {
+    const data = await getAlerts();
+    console.log("tat ca canh bao: ", data);
+    getCameraList().then((data) => console.log("Canera lists: ", data));
+    loadAll();
+  } catch (error) {
+    console.error("Co loi:", error.message);
+  }
+};
+
+main();
